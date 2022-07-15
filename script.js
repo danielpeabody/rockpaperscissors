@@ -38,9 +38,71 @@ function getComputerChoice(){
     }
 }
 
-// player choice 
+
 function playerChoice(){
-    const input = prompt();
-    console.log(input);
+    let choice = prompt();
+    return choice
 }
+
+function playRound(playerselection,computerSelection){
+    if(playerselection == "rock"){
+        if(computerSelection == "paper"){
+            return "You lose paper beats rock."
+        }
+        else if (computerSelection == "scissors"){
+            return "You win rock beats scissors."
+        }
+        else{
+            return "Tie!"
+        }
+    }
+    else if(playerselection == "paper"){
+        if(computerSelection == "rock"){
+            return "You win paper beats rock."
+        }
+        else if (computerSelection == "scissors"){
+            return "You lose rock beats scissors."
+        }
+        else{
+            return "Tie!"
+        }
+    }
+    else {
+        if(computerSelection == "rock"){
+            return "You lose rock beats scissors."
+        }
+        else if (computerSelection == "scissors"){
+            return "You win rock beats scissors."
+        }
+        else{
+            return "Tie!"
+        }
+    }
+}
+
+
+function playGame(rounds){
+    let playerCount = 0;
+    let cpuCount = 0;
+    for(let i = 0; i < rounds; i++){
+        let result = playRound(playerChoice(),getComputerChoice());
+        result = result.split(' ');
+       
+       if(result[0] == 'tie'){
+        playerCount += 0;
+       }else if(result[1] == 'win'){
+        playerCount += 1;
+       }else {
+        cpuCount += 1;
+       }
+    }
+    if(playerCount > cpuCount){
+        return `player : ${playerCount} cpu: ${cpuCount} YOU WIN!`
+    }else {
+        return `player : ${playerCount} cpu: ${cpuCount} YOU LOSE!`
+
+    }
+}
+
+console.log(playGame(3))
 
