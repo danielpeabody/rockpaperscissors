@@ -1,4 +1,5 @@
-
+let PLAYERSCORE = 0;
+let CPUSCORE = 0;
 
 // creates a random number between
 // 0 and 3
@@ -24,82 +25,90 @@ function randomNumber() {
 
 // chooses rock,paper, or scissors randomly
 function getComputerChoice(){
+    let choice = document.getElementById('computerChoice')
     let randomNum = randomNumber();
     switch(randomNum) {
         case 1:
+            choice.innerText = "The Computer Chose Rock";
             return "rock"
             break;
         case 2:
+            choice.innerText = "The Computer Chose Paper";
             return "paper"
             break;
         default:
+            choice.innerText = "The Computer Chose Scissors";
             return "scissors"
 
     }
 }
 
-
-function playerChoice(){
-    let choice = prompt();
-    return choice
-}
-
-function playRound(playerselection,computerSelection){
-    if(playerselection == "rock"){
-        if(computerSelection == "paper"){
-            return "You lose paper beats rock."
-        }
-        else if (computerSelection == "scissors"){
-            return "You win rock beats scissors."
-        }
-        else{
-            return "Tie!"
-        }
+function determineWinner(player,cpu){
+    if(player === "rock"){
+        if(cpu === "rock")
+        return "tie"
+        
+        else if(cpu === "paper")
+        return "lose"
+        
+        else
+        return "win"
     }
-    else if(playerselection == "paper"){
-        if(computerSelection == "rock"){
-            return "You win paper beats rock."
-        }
-        else if (computerSelection == "scissors"){
-            return "You lose rock beats scissors."
-        }
-        else{
-            return "Tie!"
-        }
+
+    if(player === "paper"){
+        if(cpu === "paper")
+        return "tie"
+        
+        else if(cpu === "scissors")
+        return "lose"
+        
+        else
+        return "win"
     }
-    else {
-        if(computerSelection == "rock"){
-            return "You lose rock beats scissors."
-        }
-        else if (computerSelection == "scissors"){
-            return "You win rock beats scissors."
-        }
-        else{
-            return "Tie!"
-        }
+
+    if(player === "scissors"){
+        if(cpu === "scissors")
+        return "tie"
+        
+        else if(cpu === "rock")
+        return "lose"
+        
+        else
+        return "win"
     }
 }
 
-
-function playGame(rounds){
-    let playerCount = 0;
-    let cpuCount = 0;
-    for(let i = 0; i < rounds; i++){
-        let result = playRound(playerChoice(),getComputerChoice());
-        result = result.split(' ');
-       
-       if(result[0] == 'tie'){
-        playerCount += 0;
-       }else if(result[1] == 'win'){
-        playerCount += 1;
-       }else {
-        cpuCount += 1;
-       }
+function updateGameState(outcome){
+    if(outcome === "win"){
+        PLAYERSCORE += 1;   
+        const player = document.getElementById('playerscore');
+        player.textContent = `Player : ${PLAYERSCORE}`;
     }
-    if(playerCount > cpuCount){
-        return `player : ${playerCount} cpu: ${cpuCount} YOU WIN!`
-    }else {
-        return `player : ${playerCount} cpu: ${cpuCount} YOU LOSE!`
-
+    else if(outcome === "lose"){
+        CPUSCORE += 1;
+        const cpu = document.getElementById('cpuscore');
+        cpu.textContent = `Cpu : ${CPUSCORE}`;
     }
 }
+
+// rock is chosen by player
+const rockButton = document.querySelector('.choice.rock');
+rockButton.addEventListener('click',function(){
+    const cpu = getComputerChoice();
+    const outcome = determineWinner("rock",cpu);
+    updateGameState(outcome)
+})
+
+const paperButton = document.querySelector('.choice.paper');
+paperButton.addEventListener('click',function(){
+    const cpu = getComputerChoice();
+    const outcome = determineWinner("paper",cpu);
+    updateGameState(outcome)
+})
+
+const scissorsButton = document.querySelector('.choice.scissors');
+scissorsButton.addEventListener('click',function(){
+    const cpu = getComputerChoice();
+    const outcome = determineWinner("scissors",cpu);
+    updateGameState(outcome)
+})
