@@ -103,6 +103,3 @@ function playGame(rounds){
 
     }
 }
-
-console.log(playGame(3))
-
